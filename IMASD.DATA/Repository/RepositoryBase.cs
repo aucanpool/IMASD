@@ -59,5 +59,6 @@ namespace IMASD.DATA.Repository
         {
             return _dbSet.Where(where).FirstOrDefault();
         }
+        
     }
 }

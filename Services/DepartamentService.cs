@@ -10,14 +10,11 @@ using IMASD.DATA.Repository;
 
 namespace Services
 {
-    public class DepartamentService : ServiceBase, IDepartamentService
+    public class DepartamentService :  IDepartamentService
     {
         private readonly IDepartamentRepository _repository;
 
-        public DepartamentService():base()
-        {
-            this._repository = new DepartamentRepository(context);
-        }
+        
         public DepartamentService(IDepartamentRepository _repository)
         {
             this._repository = _repository;

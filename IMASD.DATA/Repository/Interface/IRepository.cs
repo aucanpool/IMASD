@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IMASD.DATA.Repository.Interface
 {
-    public interface IRepository<T> where T :class
+    public interface IRepository<T> where T :class 
     {
         T GetByID(object id);
         T Get(Expression<Func<T, bool>> where);

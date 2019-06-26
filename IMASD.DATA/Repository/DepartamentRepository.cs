@@ -13,7 +13,8 @@ namespace IMASD.DATA.Repository
         public DepartamentRepository(MainContext context)
             : base(context)
         {
-
+            
         }
+        
     }
 }

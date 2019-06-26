@@ -11,13 +11,10 @@ using IMASD.DATA.Repository;
 
 namespace Services
 {
-    public class JobService : ServiceBase, IJobService
+    public class JobService : IJobService
     {
         private readonly IJobRepository repository;
-        public JobService():base()
-        {
-            this.repository = new JobRepository(context);
-        }
+        
         public JobService(IJobRepository repository)
         {
             this.repository = repository;

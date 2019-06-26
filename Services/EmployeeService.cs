@@ -8,14 +8,10 @@ using System.Linq.Expressions;
 
 namespace Services
 {
-    public class EmployeeService : ServiceBase, IEmployeeService
+    public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository repository;
-        public EmployeeService():base()
-        {
-            this.repository = new EmployeeRepository(context);
-            
-        }
+        
         public EmployeeService(IEmployeeRepository repository)
         {
             this.repository = repository;

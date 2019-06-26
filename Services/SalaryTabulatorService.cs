@@ -11,13 +11,10 @@ using IMASD.DATA.Repository;
 
 namespace Services
 {
-    public class SalaryTabulatorService : ServiceBase, ISalaryTabulatorService
+    public class SalaryTabulatorService : ISalaryTabulatorService
     {
         private readonly ISalaryTabulatorRepository repository;
-        public SalaryTabulatorService():base()
-        {
-            this.repository = new SalaryTabulatorRepository(context);
-        }
+        
         public SalaryTabulatorService(ISalaryTabulatorRepository repository)
         {
             this.repository = repository;
