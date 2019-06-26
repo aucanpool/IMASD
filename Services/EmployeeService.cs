@@ -45,5 +45,18 @@ namespace Services
         {
             this.repository.Update(entity);
         }
+
+        public void Delete(Employee entity)
+        {
+            entity.Active = false;
+            this.repository.Update(entity);
+        }
+
+        public void Delete(object id)
+        {
+            var entity = GetByID(id);
+            entity.Active = false;
+            this.repository.Update(entity);
+        }
     }
 }

@@ -14,16 +14,18 @@ namespace IMASD.DATA.Mapping
         public JobMap()
         {
             ToTable("Jobs")
-                .HasKey(x=>x.Id)
-                .HasIndex(x=>x.Key).IsUnique();
+                .HasKey(x => x.Id);
 
             Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.Key)
+                .IsUnicode()
                 .HasColumnType("varchar")
                 .HasMaxLength(50);
             Property(x=>x.Name)
                 .HasColumnType("varchar")
                 .HasMaxLength(100);
+
+            Property(x => x.Active).IsRequired();
         }
     }
 }

@@ -22,8 +22,9 @@ namespace IMASD.Test
             {
                 // Create your builder.
                 var builder = new ContainerBuilder();
-                
-                
+                builder.RegisterType<DepartamentRepository>().As<IDepartamentRepository>();
+                builder.RegisterType<MainContext>().InstancePerRequest();
+
                 builder.RegisterType<DepartamentService>().As<IDepartamentService>();
 
                 Container = builder.Build();

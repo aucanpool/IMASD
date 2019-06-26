@@ -28,6 +28,6 @@ namespace IMASD.DATA
             modelBuilder.Configurations.Add(new JobMap());
             modelBuilder.Configurations.Add(new SalaryTabulatorMap());
         }
-
+        
     }
 }

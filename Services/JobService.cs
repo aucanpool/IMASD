@@ -19,6 +19,20 @@ namespace Services
         {
             this.repository = repository;
         }
+
+        public void Delete(object id)
+        {
+            var entity = GetByID(id);
+            entity.Active = false;
+            this.repository.Update(entity);
+        }
+
+        public void Delete(Job entity)
+        {
+            entity.Active = false;
+            this.repository.Update(entity);
+        }
+
         public Job Get(Expression<Func<Job, bool>> where)
         {
             return this.repository.Get(where);

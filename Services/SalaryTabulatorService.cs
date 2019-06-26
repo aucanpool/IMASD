@@ -19,6 +19,20 @@ namespace Services
         {
             this.repository = repository;
         }
+
+        public void Delete(object id)
+        {
+            var entity = GetByID(id);
+            entity.Active = false;
+            this.repository.Update(entity);
+        }
+
+        public void Delete(SalaryTabulator entity)
+        {
+            entity.Active = false;
+            this.repository.Update(entity);
+        }
+
         public SalaryTabulator Get(Expression<Func<SalaryTabulator, bool>> where)
         {
             return this.repository.Get(where);

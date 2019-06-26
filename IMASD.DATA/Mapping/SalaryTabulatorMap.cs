@@ -18,8 +18,9 @@ namespace IMASD.DATA.Mapping
             Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             
 
-            HasIndex(x => x.Key).IsUnique();
-            Property(x => x.Key).IsRequired()
+            Property(x => x.Key)
+                .IsUnicode()
+                .IsRequired()
                 .HasColumnType("varchar")
                 .HasMaxLength(100);
 
@@ -30,6 +31,7 @@ namespace IMASD.DATA.Mapping
                 .WillCascadeOnDelete(false);
             Property(x => x.TabulatorLevel).HasColumnName("Level").IsRequired();
 
+            Property(x => x.Active).IsRequired();
         }
     }
 }

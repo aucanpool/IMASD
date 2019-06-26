@@ -18,6 +18,8 @@ namespace IMASD.DATA.Mapping
             Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.Name).IsRequired().HasMaxLength(100);
             Property(x => x.Description).IsOptional().HasMaxLength(150);
+
+            Property(x => x.Active).IsRequired();
         }
     }
 }

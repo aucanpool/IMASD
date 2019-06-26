@@ -18,6 +18,7 @@ namespace IMASD.DATA.Entities
         public float AnnualHolidayBonus{ get; set; }
         public int AnnualBonusDays{ get; set; }
         public int AnnualVacationDays{ get; set; }
+        public bool Active { get; set; }
         //Navigation properties
         public virtual ICollection<Employee> Employees { get; set;}
 

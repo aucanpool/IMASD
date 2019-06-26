@@ -12,8 +12,9 @@ namespace IMASD.DATA.Mapping
             ToTable("Employees");
             HasKey(x => x.Id);
             Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            HasIndex(x => x.JobNumber).IsUnique();
+            
             Property(x => x.JobNumber)
+                .IsUnicode()
                 .IsRequired()
                 .HasColumnType("varchar")
                 .HasMaxLength(50);

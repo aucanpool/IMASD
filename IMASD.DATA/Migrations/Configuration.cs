@@ -29,7 +29,7 @@ namespace IMASD.DATA.Migrations
                 context.Jobs.AddOrUpdate(jobs.ToArray());
                 context.SaveChanges();
             }
-            if (!context.Jobs.Any())
+            if (!context.SalaryTabulators.Any())
             {
                 var salaryTabulators = getSalaryTabulator();
                 context.SalaryTabulators.AddOrUpdate(salaryTabulators.ToArray());

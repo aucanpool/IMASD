@@ -15,5 +15,7 @@ namespace Services.Interface
         IEnumerable<T> GetMany(Expression<Func<T, bool>> where);
         void Insert(T entity);
         void Update(T entity);
+        void Delete(T entity);
+        void Delete(object id);
     }
 }
