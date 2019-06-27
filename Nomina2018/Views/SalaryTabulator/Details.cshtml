@@ -1,0 +1,82 @@
+﻿@model IMASD.DATA.Entities.SalaryTabulator
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SalaryTabulator</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Job.Key)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Job.Key)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Key)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Key)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TabulatorLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TabulatorLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hourlywages)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hourlywages)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnnualHolidayBonus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnnualHolidayBonus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnnualBonusDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnnualBonusDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnnualVacationDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnnualVacationDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

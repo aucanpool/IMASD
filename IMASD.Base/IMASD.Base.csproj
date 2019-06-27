@@ -40,8 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ENUMS\FrequencyofPayments.cs" />
     <Compile Include="ENUMS\Gender.cs" />
     <Compile Include="ENUMS\TabulatorLevel.cs" />
+    <Compile Include="ENUMS\TypeofHours.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

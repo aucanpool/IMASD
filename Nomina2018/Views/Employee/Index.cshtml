@@ -1,87 +1,267 @@
 ﻿@model IEnumerable<EmployeeDTO>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Empleados";
 }
 
-<h2>Index</h2>
+<h2>Empleados</h2>
+<tr />
+<div class="jumbotron">
+    @using (Html.BeginForm("Search", "employee", null, FormMethod.Post, new { Id = "searchForm", @class = "form-horizontal" }))
+    {
+        
+        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <label class="control-label">Departamento:</label>
+            @Html.DropDownList("DepartamentId", null, "-- Select Status --",htmlAttributes: new { @class = "form-control" })
+        </div>
+            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label">Tabulador salarial:</label>
+                @Html.DropDownList("SalaryTabulatorId", null, "-- Select Status --", htmlAttributes: new { @class = "form-control" })
+            </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Departament.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SalaryTabulator.Key)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.JobNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Telefone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Gender)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HireDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Active)
-        </th>
-        <th></th>
-    </tr>
+            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label">Numero de empleado:</label>
+                <div>
+                    <input name="key" id="keyFilter" type="text" class="form-control">
+                </div>
+            </div>
+                    <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <label class="control-label">Nombres y/o apellido:</label>
+                        <div>
+                            <input name="fullName" id="fullName" type="text" class="form-control">
+                        </div>
+                    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Departament.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SalaryTabulator.Key)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.JobNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Telefone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gender)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HireDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-9 col-sm-9 col-xs-12 ">
+                            <input id="btnConsultar" type="submit" value="Consultar" class="btn btn-primary" data-url="@Url.Action("Create", "Employee", new { })"/>
+                        </div>
+                    </div>
+    }
+
+</div>
+
+<div class="panel panel-default" style="padding-bottom:60px">
+
+    <div class="row">
+        <div class="row">
+            <div class="col-md-2 col-md-offset-10 col-sm-2 col-sm-offset-10 col-xs-4 col-xs-offset-8">
+
+                <button style="margin:25px" data-toggle="tooltip" data-placement="left" title="Crear" aria-label="Left Align" class="buttonNew btn btn-success btn-sm btn-size-table" data-url="@Url.Action("Create", "Employee", new { })">
+                    Nuevo empleado
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <table class="table  table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DepartamentId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SalaryTabulatorId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JobNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Telefone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Gender)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HireDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Active)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="loadListEmployee">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Departament.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SalaryTabulator.Hourlywages) Diario
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JobNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Telefone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HireDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>
+                    <td>
+                        <button data-toggle="tooltip" data-placement="left" title="Editar" aria-label="Left Align" class="buttonEdit btn btn-default btn-sm btn-size-table" data-url="@Url.Action("Edit", "Employee", new { id = item.Id })">
+                            <i class="fa fa-pencil fa-lg"></i>
+                        </button>
+
+                        <button data-toggle="tooltip" data-placement="left" title="Detalles" aria-label="Left Align" class="buttonDetail btn btn-default btn-sm btn-size-table" data-url="@Url.Action("Details", "Employee", new { id = item.Id })">
+                            <i class="fa fa-info-circle fa-lg"></i>
+                        </button>
+
+                        <button data-toggle="tooltip" data-placement="left" title="Eliminar" aria-label="Left Align" class="buttonDelete btn btn-default btn-sm btn-size-table" data-url="@Url.Action("Delete", "Employee", new { id = item.Id })">
+                            <i class="fa fa-trash-o fa-lg"></i>
+                        </button>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+</div>
+<div class="container-fluid">
+
+    <!-- The modal -->
+    <div class="modal fade" id="flipFlop" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div id="load" class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $("#searchForm").submit(function (event) {
+                debugger
+                event.preventDefault();  // disable link event.
+
+                var form = $(this);
+                var url = form.attr('action');
+
+                var data = form.serialize();
+
+                console.log('edit form', url, data);
+
+
+                console.log('get list employees', url);
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    data: data,
+                    async:true,
+                    success: function (response) {
+                        debugger
+                        $("#loadListEmployee").html(response);
+                        //postSubmitEdit();
+                    },
+                    error: function (data) {
+                        debugger
+                        alert(data.responseText);
+
+                    }
+                });
+            });
+            $("button.buttonEdit,button.buttonNew,button.buttonDelete,button.buttonDetail").on('click', function (event) {
+                event.preventDefault();  // disable link event.
+                debugger
+                var button = $(this);
+                var url = button.data('url');
+
+                $.ajax({
+                    type: 'get',
+                    url: url,
+                    contentType: "text/html",
+                    success: function (response) {
+                        debugger
+                        $("#load").html(response);
+                        $('#flipFlop').modal('show');// Open edit
+                        postSubmitEdit();
+                    },
+                    error: function (data) {
+                        debugger
+                        alert(data.responseText);
+
+                    }
+                });
+            });
+            // Ends Edit
+
+        })
+
+        /// edit
+
+        function postSubmitEdit() {
+            //Edit documentType
+            $('#editForm')
+            .submit(
+                    function (event) {
+
+                        event.preventDefault();
+
+
+                        var form = $(this);
+                        var url = form.attr('action');
+
+                        var data = form.serialize();
+
+                        console.log('edit form', url, data);
+
+                        $
+                                .ajax({
+                                    type: 'POST',
+                                    url: url,
+                                    data: data,
+                                    success: function (response) {
+                                        $('#flipFlop').modal('hide');
+                                        if (confirm("Empleado editado con éxito")) location.reload(true);
+                                    },
+                                    error: function (response) {
+
+                                        if (response.status == 400) {
+                                            var errors = JSON.parse(response.responseText);
+                                            for (var i = 0; i < errors.length; i++) {
+                                                $('span[data-valmsg-for="' + errors[i].key + '"]').text(errors[i].errors[0]);
+                                            }
+
+                                        }
+                                    }
+                                });
+                    });
+            // ends edit
+
+        }
+
+
+
+    </script>
 }
-
-</table>

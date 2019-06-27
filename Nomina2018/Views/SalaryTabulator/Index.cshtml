@@ -1,0 +1,75 @@
+﻿@model IEnumerable<IMASD.DATA.Entities.SalaryTabulator>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Job.Key)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Key)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TabulatorLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hourlywages)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnnualHolidayBonus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnnualBonusDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnnualVacationDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Job.Key)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Key)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TabulatorLevel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Hourlywages)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AnnualHolidayBonus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AnnualBonusDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AnnualVacationDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

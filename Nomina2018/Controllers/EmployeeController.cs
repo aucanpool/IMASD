@@ -11,6 +11,7 @@ using IMASD.DATA.Entities;
 using Services.Interface;
 using Nomina2018.Mapping;
 using Nomina2018.Models;
+using System.Linq.Expressions;
 
 namespace Nomina2018.Controllers
 {
@@ -29,6 +30,21 @@ namespace Nomina2018.Controllers
         public ActionResult Index()
         {
             var employees = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<EmployeeDTO>>(_employeeService.GetMany(x=>x.Active==true));
+            ViewBag.DepartamentId = new SelectList(AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<DepartamentDTO>>(_departamentService.GetAll()), "Id", "Name");
+            ViewBag.SalaryTabulatorId = new SelectList(AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<SalaryTabulatorDTO>>(_salaryTabulatorService.GetAll()), "Id", "Key");
+
+            return View(employees);
+        }
+        [HttpPost]
+        public ActionResult Search(SearchEmployee searchEmployee)
+        {
+            
+               var many = _employeeService.GetMany(
+                    x => x.Active == true || (x.JobNumber.Contains(searchEmployee.KeyEmplooye)
+                    || x.LastName.Contains(searchEmployee.FullName) || x.FirstName.Contains(searchEmployee.FullName))
+                    || x.SalaryTabulatorId == searchEmployee.SalaryTabulatorId || x.DepartamentId == searchEmployee.DepartamentId);
+             
+            var employees = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<EmployeeDTO>>(many);
             return View(employees);
         }
 
@@ -104,12 +120,22 @@ namespace Nomina2018.Controllers
                 _employeeService.Update(employee);
                 return RedirectToAction("Index");
             }
-            var departamentsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<EmployeeDTO>>(_departamentService.GetAll());
+            var departamentsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<DepartamentDTO>>(_departamentService.GetAll());
             var salaryTabulatorsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<SalaryTabulatorDTO>>(_salaryTabulatorService.GetAll());
 
             ViewBag.DepartamentId = new SelectList(departamentsDTO, "Id", "Name", employeeDTO.DepartamentId);
             ViewBag.SalaryTabulatorId = new SelectList(salaryTabulatorsDTO, "Id", "Key", employeeDTO.SalaryTabulatorId);
             return View(employeeDTO);
+        }
+        [HttpPost]
+        [ValidateAjax]
+        public JsonResult EditJson(EmployeeDTO employeeDTO)
+        {
+            
+                var employee = AutoMapperConfiguration.Instance.Mapper.Map<Employee>(employeeDTO);
+                _employeeService.Update(employee);
+                return Json(employee, JsonRequestBehavior.AllowGet);
+            
         }
 
         // GET: Employee/Delete/5

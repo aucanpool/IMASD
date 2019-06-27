@@ -25,19 +25,22 @@ namespace Nomina2018.Models
         [StringLength(50)]
         public String LastName { get; set; }
         [Display(Name = "Dirección")]
+
         [Required(ErrorMessage = "Requerido.")]
         [StringLength(150)]
         public String Address { get; set; }
 
         [Display(Name = "Telefono")]
         [StringLength(25)]
-        [RegularExpression(@"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}", ErrorMessage = "Numero invalido")]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Formato invalido")]
         public string Telefone { get; set; }
 
         [Display(Name = "Genero")]
         public Gender Gender { get; set; }
 
         [Display(Name = "Fecha de contratación")]
+        [DataType(DataType.Date,ErrorMessage = "Please enter a valid date in the format dd/mm/yyyy")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime HireDate { get; set; }
 
         [Display(Name = "Activo")]

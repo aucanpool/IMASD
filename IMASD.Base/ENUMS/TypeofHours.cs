@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogic
+namespace IMASD.Base.ENUMS
 {
-    public class Class1
+    public enum TypeofHours
     {
+        Simple=1,
+        Double =2,
+        Triple=3
     }
 }
