@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nomina2018;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,7 @@ namespace Nomina2018
     {
         protected void Application_Start()
         {
+            AutoFacConfig.Configure();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

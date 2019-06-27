@@ -1,4 +1,4 @@
-﻿@model IMASD.DATA.Entities.Employee
+﻿@model EmployeeDTO
 
 @{
     ViewBag.Title = "Details";
@@ -11,7 +11,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Departament.Name)
+            @Html.DisplayNameFor(model => model.DepartamentId)
         </dt>
 
         <dd>
@@ -19,7 +19,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SalaryTabulator.Key)
+            @Html.DisplayNameFor(model => model.SalaryTabulatorId)
         </dt>
 
         <dd>
@@ -93,6 +93,13 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+
+    <div class="form-group">
+        <div class="col-md-offset-7 col-md-2">
+            @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default" })
+        </div>
+        <div class="col-md-2">
+        
+        </div>
+    </div>
 </p>

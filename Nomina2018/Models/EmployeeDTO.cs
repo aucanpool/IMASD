@@ -10,6 +10,7 @@ namespace Nomina2018.Models
 {
     public class EmployeeDTO
     {
+        [Display(Name = "Identificador")]
         public int Id { get; set; }
         [Display(Name = "Numero de empleado")]
         [Required(ErrorMessage = "Requerido.")]

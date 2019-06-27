@@ -1,4 +1,4 @@
-﻿@model IMASD.DATA.Entities.Employee
+﻿@model EmployeeDTO
 
 @{
     ViewBag.Title = "Delete";
@@ -12,7 +12,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Departament.Name)
+            @Html.DisplayNameFor(model => model.DepartamentId)
         </dt>
 
         <dd>
@@ -20,7 +20,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SalaryTabulator.Key)
+            @Html.DisplayNameFor(model => model.SalaryTabulatorId)
         </dt>
 
         <dd>
@@ -98,7 +98,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Cancelar", "Index")
         </div>
     }
 </div>
