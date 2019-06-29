@@ -40,7 +40,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmployeeBussinesLogic.cs" />
+    <Compile Include="Interface\IEmployeeBussinesLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IMASD.Base\IMASD.Base.csproj">
+      <Project>{532abee6-3272-4af3-8de5-5ae557c6118c}</Project>
+      <Name>IMASD.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IMASD.DATA\IMASD.Data.csproj">
+      <Project>{bee6a030-a1da-447c-af79-64be13ca2be6}</Project>
+      <Name>IMASD.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{21ffdf4f-aec5-4848-9858-71088556e66a}</Project>
+      <Name>Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

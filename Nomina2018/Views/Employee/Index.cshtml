@@ -12,23 +12,23 @@
         
         <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <label class="control-label">Departamento:</label>
-            @Html.DropDownList("DepartamentId", null, "-- Select Status --",htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("DepartamentId", null, "-- Seleccione un departamento --",htmlAttributes: new { @class = "form-control" })
         </div>
             <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <label class="control-label">Tabulador salarial:</label>
-                @Html.DropDownList("SalaryTabulatorId", null, "-- Select Status --", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("SalaryTabulatorId", null, "-- Seleccione un tabulador --", htmlAttributes: new { @class = "form-control" })
             </div>
 
             <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <label class="control-label">Numero de empleado:</label>
                 <div>
-                    <input name="key" id="keyFilter" type="text" class="form-control">
+                    <input name="KeyEmplooye" id="KeyEmplooye" type="text" class="form-control">
                 </div>
             </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <label class="control-label">Nombres y/o apellido:</label>
+                        <label class="control-label">Nombre:</label>
                         <div>
-                            <input name="fullName" id="fullName" type="text" class="form-control">
+                            <input name="Name" id="Name" type="text" class="form-control">
                         </div>
                     </div>
 
@@ -161,6 +161,7 @@
 @section Scripts{
     <script>
         $(function () {
+            postSubmitEdit();
             $("#searchForm").submit(function (event) {
                 debugger
                 event.preventDefault();  // disable link event.
@@ -182,7 +183,7 @@
                     success: function (response) {
                         debugger
                         $("#loadListEmployee").html(response);
-                        //postSubmitEdit();
+                        postSubmitEdit();
                     },
                     error: function (data) {
                         debugger
@@ -193,7 +194,7 @@
             });
             $("button.buttonEdit,button.buttonNew,button.buttonDelete,button.buttonDetail").on('click', function (event) {
                 event.preventDefault();  // disable link event.
-                debugger
+                
                 var button = $(this);
                 var url = button.data('url');
 
@@ -202,13 +203,11 @@
                     url: url,
                     contentType: "text/html",
                     success: function (response) {
-                        debugger
                         $("#load").html(response);
                         $('#flipFlop').modal('show');// Open edit
-                        postSubmitEdit();
+                        //postSubmitEdit();
                     },
                     error: function (data) {
-                        debugger
                         alert(data.responseText);
 
                     }
@@ -222,7 +221,53 @@
 
         function postSubmitEdit() {
             //Edit documentType
-            $('#editForm')
+            $('#editForm, #createForm')
+            .submit(
+                    function (event) {
+                        debugger
+                        event.preventDefault();
+
+
+                        var form = $(this);
+                        var url = form.attr('action');
+
+                        var data = form.serialize();
+
+                        console.log('form', url, data);
+
+                        $
+                                .ajax({
+                                    type: 'POST',
+                                    url: url,
+                                    data: data,
+                                    async: true,
+                                    success: function (response) {
+                                        $('#flipFlop').modal('hide');
+                                        if (form.prop("id") == "editForm") {
+                                            if (confirm("Empleado editado con éxito")) location.reload(true);
+                                        } else {
+                                            if (confirm("Empleado creado con éxito")) location.reload(true);
+                                        }
+                                        
+                                    },
+                                    error: function (response) {
+
+                                        if (response.status == 400) {
+                                            var errors = JSON.parse(response.responseText);
+                                            for (var i = 0; i < errors.length; i++) {
+                                                $('span[data-valmsg-for="' + errors[i].key + '"]').text(errors[i].errors[0]);
+                                            }
+
+                                        }
+                                    }
+                                });
+                    });
+            // ends edit
+
+        }
+        function postShowModalCreate() {
+            //Edit Employee
+            $('#createForm')
             .submit(
                     function (event) {
 
@@ -234,7 +279,7 @@
 
                         var data = form.serialize();
 
-                        console.log('edit form', url, data);
+                        console.log('form', url, data);
 
                         $
                                 .ajax({
@@ -243,7 +288,7 @@
                                     data: data,
                                     success: function (response) {
                                         $('#flipFlop').modal('hide');
-                                        if (confirm("Empleado editado con éxito")) location.reload(true);
+                                        if (confirm("Empleado creado con éxito")) location.reload(true);
                                     },
                                     error: function (response) {
 

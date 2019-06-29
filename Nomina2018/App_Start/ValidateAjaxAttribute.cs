@@ -11,8 +11,8 @@ namespace Nomina2018
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (!filterContext.HttpContext.Request.IsAjaxRequest())
-                return;
+           /* if (!filterContext.HttpContext.Request.IsAjaxRequest())
+                return;*/
 
             var modelState = filterContext.Controller.ViewData.ModelState;
             if (!modelState.IsValid)

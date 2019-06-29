@@ -30,7 +30,7 @@ namespace Nomina2018.Models
         [StringLength(150)]
         public String Address { get; set; }
 
-        [Display(Name = "Telefono")]
+        [Display(Name = "Télefono")]
         [StringLength(25)]
         [DataType(DataType.PhoneNumber, ErrorMessage = "Formato invalido")]
         public string Telefone { get; set; }

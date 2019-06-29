@@ -12,6 +12,7 @@ using Services.Interface;
 using Nomina2018.Mapping;
 using Nomina2018.Models;
 using System.Linq.Expressions;
+using System.Globalization;
 
 namespace Nomina2018.Controllers
 {
@@ -38,11 +39,9 @@ namespace Nomina2018.Controllers
         [HttpPost]
         public ActionResult Search(SearchEmployee searchEmployee)
         {
-            
-               var many = _employeeService.GetMany(
-                    x => x.Active == true || (x.JobNumber.Contains(searchEmployee.KeyEmplooye)
-                    || x.LastName.Contains(searchEmployee.FullName) || x.FirstName.Contains(searchEmployee.FullName))
-                    || x.SalaryTabulatorId == searchEmployee.SalaryTabulatorId || x.DepartamentId == searchEmployee.DepartamentId);
+            Calendar cal = new UmAlQuraCalendar();
+
+            var many = _employeeService.GetByFilters(searchEmployee.KeyEmplooye, searchEmployee.Name, searchEmployee.DepartamentId, searchEmployee.SalaryTabulatorId);
              
             var employees = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<EmployeeDTO>>(many);
             return View(employees);
@@ -72,22 +71,32 @@ namespace Nomina2018.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,JobNumber,FirstName,LastName,Address,Telefone,Gender,HireDate,Active,DepartamentId,SalaryTabulatorId")] EmployeeDTO employeeDTO)
-        {
-            if (ModelState.IsValid)
-            {
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "Id,JobNumber,FirstName,LastName,Address,Telefone,Gender,HireDate,Active,DepartamentId,SalaryTabulatorId")] EmployeeDTO employeeDTO)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
 
-                _employeeService.Insert(AutoMapperConfiguration.Instance.Mapper.Map<Employee>(employeeDTO));
+        //        _employeeService.Insert(AutoMapperConfiguration.Instance.Mapper.Map<Employee>(employeeDTO));
                 
-                return RedirectToAction("Index");
-            }
-            var departamentsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<DepartamentDTO>>(_departamentService.GetAll());
-            var salaryTabulatorsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<SalaryTabulatorDTO>>(_salaryTabulatorService.GetAll());
-            ViewBag.DepartamentId = new SelectList(departamentsDTO, "Id", "Name", employeeDTO.DepartamentId);
-            ViewBag.SalaryTabulatorId = new SelectList(salaryTabulatorsDTO, "Id", "Key", employeeDTO.SalaryTabulatorId);
-            return View(employeeDTO);
+        //        return RedirectToAction("Index");
+        //    }
+        //    var departamentsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<DepartamentDTO>>(_departamentService.GetAll());
+        //    var salaryTabulatorsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<SalaryTabulatorDTO>>(_salaryTabulatorService.GetAll());
+        //    ViewBag.DepartamentId = new SelectList(departamentsDTO, "Id", "Name", employeeDTO.DepartamentId);
+        //    ViewBag.SalaryTabulatorId = new SelectList(salaryTabulatorsDTO, "Id", "Key", employeeDTO.SalaryTabulatorId);
+        //    return View(employeeDTO);
+        //}
+        [HttpPost]
+        [ValidateAjax]
+        public JsonResult CreateJson(EmployeeDTO employeeDTO)
+        {
+
+            var employee = AutoMapperConfiguration.Instance.Mapper.Map<Employee>(employeeDTO);
+            _employeeService.Insert(employee);
+            return Json(employee, JsonRequestBehavior.AllowGet);
+
         }
 
         // GET: Employee/Edit/5
@@ -101,24 +110,6 @@ namespace Nomina2018.Controllers
             if (employeeDTO == null)
             {
                 return HttpNotFound();
-            }
-            var departamentsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<DepartamentDTO>>(_departamentService.GetAll());
-            var salaryTabulatorsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<SalaryTabulatorDTO>>(_salaryTabulatorService.GetAll());
-
-            ViewBag.DepartamentId = new SelectList(departamentsDTO, "Id", "Name", employeeDTO.DepartamentId);
-            ViewBag.SalaryTabulatorId = new SelectList(salaryTabulatorsDTO, "Id", "Key", employeeDTO.SalaryTabulatorId);
-            return View(employeeDTO);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,JobNumber,FirstName,LastName,Address,Telefone,Gender,HireDate,Active,DepartamentId,SalaryTabulatorId")] EmployeeDTO employeeDTO)
-        {
-            if (ModelState.IsValid)
-            {
-                var employee = AutoMapperConfiguration.Instance.Mapper.Map<Employee>(employeeDTO);
-                _employeeService.Update(employee);
-                return RedirectToAction("Index");
             }
             var departamentsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<DepartamentDTO>>(_departamentService.GetAll());
             var salaryTabulatorsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<SalaryTabulatorDTO>>(_salaryTabulatorService.GetAll());

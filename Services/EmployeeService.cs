@@ -58,5 +58,17 @@ namespace Services
             entity.Active = false;
             this.repository.Update(entity);
         }
+
+        
+
+        public IEnumerable<Employee> GetByFilters(string inWhatEverColumn)
+        {
+            return repository.GetByFilters(inWhatEverColumn);
+        }
+
+        public IEnumerable<Employee> GetByFilters(string jobNumber, string name, int? departamentId, int? salaryTabulatorId)
+        {
+            return repository.GetByFilters(null,jobNumber,name,"","","",null,null,null,null,departamentId,salaryTabulatorId);
+        }
     }
 }
