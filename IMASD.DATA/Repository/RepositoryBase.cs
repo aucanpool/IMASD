@@ -1,4 +1,5 @@
-﻿using IMASD.DATA.Repository.Interface;
+﻿using IMASD.Base.DataTablesDTO;
+using IMASD.DATA.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -7,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace IMASD.DATA.Repository
 {
-    public class RepositoryBase<T>: IRepository<T> where T : class
+    public class RepositoryBase<T> : IRepository<T> where T : class
     {
         private MainContext _context;
 
@@ -59,5 +60,10 @@ namespace IMASD.DATA.Repository
         {
             return _dbSet.Where(where).FirstOrDefault();
         }
+        public int Count(Expression<Func<T, bool>> where)
+        {
+            return _dbSet.Count(where);
+        } 
+        
     }
 }

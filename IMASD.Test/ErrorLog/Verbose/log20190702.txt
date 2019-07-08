@@ -1,0 +1,3 @@
+2019-07-02 15:33:21.187 -05:00 [VRB] Verbose
+System.NotImplementedException: No se puede implementar el método o la operación.
+   en IMASD.Test.UnitTest1.TestSeriLog() en C:\Users\aucan\documents\visual studio 2015\Projects\IMASD\IMASD.Test\UnitTest1.cs:línea 94

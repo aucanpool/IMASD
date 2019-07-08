@@ -16,6 +16,9 @@ namespace Nomina2018.Models
         [Display(Name = "Nombre")]
         [StringLength(100)]
         public string Name { get; set; }
+
+        [Display(Name = "Activo")]
+        public bool Active { get; set; }
         public virtual ICollection<SalaryTabulatorDTO> SalaryTabulators { get; set; }
     }
 }

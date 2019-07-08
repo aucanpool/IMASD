@@ -8,18 +8,28 @@ using System.Web;
 using System.Web.Mvc;
 using IMASD.DATA;
 using IMASD.DATA.Entities;
+using Services.Interface;
+using Nomina2018.Mapping;
+using Nomina2018.Models;
+using Nomina2018.Models.JSON;
 
 namespace Nomina2018.Controllers
 {
     public class SalaryTabulatorController : Controller
     {
-        private MainContext db = new MainContext();
-
+        private readonly ISalaryTabulatorService salaryTabuladorService;
+        private readonly IJobService jobService;
+        public SalaryTabulatorController(ISalaryTabulatorService salaryTabuladorService, IJobService jobService)
+        {
+            this.jobService = jobService;
+            this.salaryTabuladorService = salaryTabuladorService;
+        }
         // GET: SalaryTabulator
         public ActionResult Index()
         {
-            var salaryTabulators = db.SalaryTabulators.Include(s => s.Job);
-            return View(salaryTabulators.ToList());
+            var salaryTabulators = salaryTabuladorService.GetMany(x=>x.Active==true);
+            var salaryTabulatorsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<SalaryTabulatorDTO>>(salaryTabulators);
+            return View(salaryTabulatorsDTO);
         }
 
         // GET: SalaryTabulator/Details/5
@@ -29,39 +39,38 @@ namespace Nomina2018.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SalaryTabulator salaryTabulator = db.SalaryTabulators.Find(id);
+            var salaryTabulator = salaryTabuladorService.Get(x => x.Id == id && x.Active==true);
+            var salaryTabulatorDTO = AutoMapperConfiguration.Instance.Mapper.Map<SalaryTabulatorDTO>(salaryTabulator);
             if (salaryTabulator == null)
             {
                 return HttpNotFound();
             }
-            return View(salaryTabulator);
+            return View(salaryTabulatorDTO);
         }
 
         // GET: SalaryTabulator/Create
         public ActionResult Create()
         {
-            ViewBag.JobId = new SelectList(db.Jobs, "Id", "Key");
+            var jobs = jobService.GetMany(x=>x.Active==true);
+            var jobsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<JobDTO>>(jobs);
+            ViewBag.JobId = new SelectList(jobsDTO, "Id", "Name");
             return View();
         }
-
-        // POST: SalaryTabulator/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Key,JobId,TabulatorLevel,Hourlywages,AnnualHolidayBonus,AnnualBonusDays,AnnualVacationDays,Active")] SalaryTabulator salaryTabulator)
+        [ValidateAjax]
+        public JsonResult CreateJson(SalaryTabulatorDTO salaryTabuladorDTO)
         {
-            if (ModelState.IsValid)
+            if ((int) salaryTabuladorDTO.TabulatorLevel==0)
             {
-                db.SalaryTabulators.Add(salaryTabulator);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                Console.Write("No select Tabulator level");
+                var data = new ErrorByKey[1] { new ErrorByKey { key = "TabulatorLevel", errors = new string[1] { "Requerido" } } };
+                return new JsonHttpStatusResult(data, HttpStatusCode.BadRequest);
             }
-
-            ViewBag.JobId = new SelectList(db.Jobs, "Id", "Key", salaryTabulator.JobId);
-            return View(salaryTabulator);
+            var employee = AutoMapperConfiguration.Instance.Mapper.Map<SalaryTabulator>(salaryTabuladorDTO);
+            salaryTabuladorService.Insert(employee);
+            return Json(employee, JsonRequestBehavior.DenyGet);
         }
-
+        
         // GET: SalaryTabulator/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -69,32 +78,34 @@ namespace Nomina2018.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SalaryTabulator salaryTabulator = db.SalaryTabulators.Find(id);
+            SalaryTabulator salaryTabulator = salaryTabuladorService.Get(x=>x.Id==id && x.Active==true);
             if (salaryTabulator == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.JobId = new SelectList(db.Jobs, "Id", "Key", salaryTabulator.JobId);
-            return View(salaryTabulator);
+            var salaryTabulatorDTO = AutoMapperConfiguration.Instance.Mapper.Map<SalaryTabulatorDTO>(salaryTabulator);
+            var jobs = jobService.GetMany(x => x.Active == true);
+            var jobsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<JobDTO>>(jobs);
+            
+            ViewBag.JobId = new SelectList(jobsDTO, "Id", "Name", salaryTabulatorDTO.JobId);
+            return View(salaryTabulatorDTO);
         }
 
-        // POST: SalaryTabulator/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Key,JobId,TabulatorLevel,Hourlywages,AnnualHolidayBonus,AnnualBonusDays,AnnualVacationDays,Active")] SalaryTabulator salaryTabulator)
+        [ValidateAjax]
+        public JsonResult EditJson(SalaryTabulatorDTO salaryTabulatorDTO)
         {
-            if (ModelState.IsValid)
+            if ((int)salaryTabulatorDTO.TabulatorLevel==0)
             {
-                db.Entry(salaryTabulator).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                Console.Write("No select tabulator level");
+                var data = new ErrorByKey[1] { new ErrorByKey { key = "TabulatorLevel", errors = new string[1] { "Requerido" } } };
+                return new JsonHttpStatusResult(data, HttpStatusCode.BadRequest);
             }
-            ViewBag.JobId = new SelectList(db.Jobs, "Id", "Key", salaryTabulator.JobId);
-            return View(salaryTabulator);
+            var salaryTabulator = AutoMapperConfiguration.Instance.Mapper.Map<SalaryTabulator>(salaryTabulatorDTO);
+            salaryTabuladorService.Update(salaryTabulator);
+            return Json(salaryTabulatorDTO,JsonRequestBehavior.DenyGet);
         }
-
+        
         // GET: SalaryTabulator/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -102,12 +113,13 @@ namespace Nomina2018.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SalaryTabulator salaryTabulator = db.SalaryTabulators.Find(id);
+            SalaryTabulator salaryTabulator = salaryTabuladorService.Get(x=>x.Active==true && x.Id==id);
             if (salaryTabulator == null)
             {
                 return HttpNotFound();
             }
-            return View(salaryTabulator);
+            SalaryTabulatorDTO salaryTabulatorDTO = AutoMapperConfiguration.Instance.Mapper.Map<SalaryTabulatorDTO>(salaryTabulator);
+            return View(salaryTabulatorDTO);
         }
 
         // POST: SalaryTabulator/Delete/5
@@ -115,19 +127,22 @@ namespace Nomina2018.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SalaryTabulator salaryTabulator = db.SalaryTabulators.Find(id);
-            db.SalaryTabulators.Remove(salaryTabulator);
-            db.SaveChanges();
+            SalaryTabulator salaryTabulator = salaryTabuladorService.Get(x=>x.Id==id && x.Active==true);
+            if (salaryTabulator==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            salaryTabuladorService.Delete(salaryTabulator);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

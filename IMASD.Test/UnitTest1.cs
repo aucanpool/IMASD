@@ -8,6 +8,8 @@ using Autofac;
 using Services;
 using Services.Interface;
 using Autofac.Core;
+using IMASD.Base.Utilities;
+using System.Diagnostics;
 
 namespace IMASD.Test
 {
@@ -80,6 +82,28 @@ namespace IMASD.Test
             }
             
         }
+
+        [TestMethod]
+        public void TestSeriLog()
+        {
+            try
+            {
+                SeriLogHelper.WriteDebug(null, "Debug ");
+                Debug.WriteLine("Debug");
+                SeriLogHelper.WriteWarning(null, "Warning ");
+                throw new NotImplementedException();
+            }
+            catch (Exception e)
+            {
+                SeriLogHelper.WriteError(e, "Error");
+                SeriLogHelper.WriteFatal(e, "Fatal");
+                SeriLogHelper.WriteVerbose(e, "Verbose");
+                throw;
+            }
+
+        }
+
+
+        }
+
     }
-    
-}

@@ -1,4 +1,5 @@
 ﻿using IMASD.Base.ENUMS;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,11 +37,14 @@ namespace Nomina2018.Models
         public string Telefone { get; set; }
 
         [Display(Name = "Genero")]
+        [Required(ErrorMessage = "Requerido.")]
         public Gender Gender { get; set; }
 
         [Display(Name = "Fecha de contratación")]
-        [DataType(DataType.Date,ErrorMessage = "Please enter a valid date in the format dd/mm/yyyy")]
+        [Required(ErrorMessage = "Requerido.")]
+        [DataType(DataType.Date, ErrorMessage = "Please enter a valid date in the format dd/mm/yyyy")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [JsonConverter(typeof(DateFormatConverter), "dd/MM/yyyy")]
         public DateTime HireDate { get; set; }
 
         [Display(Name = "Activo")]
@@ -49,12 +53,14 @@ namespace Nomina2018.Models
         // Departament
 
         [Display(Name = "Departamento")]
+        [Required(ErrorMessage = "Requerido.")]
         public int DepartamentId { get; set; }
         public virtual DepartamentDTO Departament { get; set; }
 
         //Salary Tabulator
 
         [Display(Name = "Tabulador Salarial")]
+        [Required(ErrorMessage = "Requerido.")]
         public int SalaryTabulatorId { get; set; }
         public virtual SalaryTabulatorDTO SalaryTabulator { get; set; }
 

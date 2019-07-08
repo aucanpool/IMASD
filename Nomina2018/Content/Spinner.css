@@ -1,0 +1,53 @@
+﻿
+.bar1{
+    transform:rotate(0deg) translate(0,-20px);
+    opacity:.12
+}
+.bar2{
+    transform:rotate(45deg) translate(0,-20px);
+    opacity:.25
+}
+.bar3{
+    transform:rotate(90deg) translate(0,-20px);opacity:.37
+}
+.bar4{transform:rotate(135deg) translate(0,-20px);opacity:.50}
+.bar5{transform:rotate(180deg) translate(0,-20px);opacity:.62}
+.bar6{transform:rotate(225deg) translate(0,-20px);opacity:.75}
+.bar7{transform:rotate(270deg) translate(0,-20px);opacity:.87}
+.bar8{transform:rotate(315deg) translate(0,-20px);opacity:1}
+#spinner{
+    position:relative;
+    width:50px;
+    height:50px;
+    margin-top:0;
+    margin-bottom:0.75em;
+    -moz-border-radius:50px;
+    float:right;
+    transform:scale(.25)
+
+}
+
+ #spinner div{
+     width:5px;
+     height:15px;
+     background:blue;
+     position:absolute;
+     top:18px;
+     left:23px;
+     margin:0}
+ #spinner{
+     display:none;
+     -webkit-animation-name:rotateThis;
+     -webkit-animation-duration:2s;
+     -webkit-animation-iteration-count:infinite;
+     -webkit-animation-timing-function:linear
+
+ }
+ @-webkit-keyframes rotateThis{
+     from{
+         -webkit-transform:scale(.5) rotate(0deg)
+     }
+    to {
+        -webkit-transform: scale(.5) rotate(360deg);
+    }
+ }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Execution;
 using IMASD.DATA.Entities;
 using Nomina2018.Models;
 using System;
@@ -36,11 +37,16 @@ namespace Nomina2018.Mapping
             mc= new MapperConfiguration(cfg => {
                 cfg.CreateMap<Employee, EmployeeDTO>();
                 cfg.CreateMap<EmployeeDTO, Employee>();
-                cfg.CreateMap<Job, JobDTO>();
+                cfg.CreateMap<Job, JobDTO>()
+                .ForMember(x => x.SalaryTabulators, s => s.Ignore());
                 cfg.CreateMap<JobDTO, Job>();
                 cfg.CreateMap<DepartamentDTO, Departament>();
-                cfg.CreateMap<Departament,DepartamentDTO>();
-                cfg.CreateMap<SalaryTabulator, SalaryTabulatorDTO>();
+                cfg.CreateMap<Departament, DepartamentDTO>()
+                .ForMember(x => x.Employees, s => s.Ignore());
+                
+                cfg.CreateMap<SalaryTabulator, SalaryTabulatorDTO>()
+                .ForMember(x => x.Employees, s => s.Ignore());
+
                 cfg.CreateMap<SalaryTabulatorDTO, SalaryTabulator>();
 
             });

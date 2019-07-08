@@ -1,0 +1,9 @@
+2019-07-04 12:28:41.181 -05:00 [WRN] Is required a gender to create a employee
+2019-07-04 15:20:16.490 -05:00 [WRN] Is required a gender to create a employee
+2019-07-04 16:46:41.282 -05:00 [WRN] Is required a gender to create a employee
+2019-07-04 17:16:40.385 -05:00 [WRN] Is required a gender to create a employee
+2019-07-04 17:24:40.786 -05:00 [WRN] Is required a gender to create a employee
+2019-07-04 17:26:59.680 -05:00 [WRN] Is required a gender to create a employee
+2019-07-04 17:29:57.671 -05:00 [WRN] Is required a gender to create a employee
+2019-07-04 17:52:50.123 -05:00 [WRN] Is required a gender to create a employee
+2019-07-04 17:58:09.430 -05:00 [WRN] Is required a gender to create a employee

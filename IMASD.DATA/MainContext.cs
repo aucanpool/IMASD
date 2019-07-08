@@ -14,6 +14,7 @@ namespace IMASD.DATA
     {
         public MainContext(): base("name=BDNOMINA2018")
         {
+            Configuration.LazyLoadingEnabled = false;
             Database.SetInitializer<MainContext>(new MigrateDatabaseToLatestVersion<MainContext, Configuration>());
         }
         public virtual DbSet<Departament> Departaments { get; set; }

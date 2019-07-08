@@ -67,6 +67,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IMASD.Base\IMASD.Base.csproj">
+      <Project>{532abee6-3272-4af3-8de5-5ae557c6118c}</Project>
+      <Name>IMASD.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IMASD.DATA\IMASD.Data.csproj">
       <Project>{bee6a030-a1da-447c-af79-64be13ca2be6}</Project>
       <Name>IMASD.Data</Name>

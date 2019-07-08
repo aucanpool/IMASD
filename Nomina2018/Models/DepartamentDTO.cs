@@ -18,6 +18,10 @@ namespace Nomina2018.Models
 
         [Display(Name = "Descripción")]
         public string Description { get; set; }
+
+        [Display(Name = "Activo")]
+        public bool Active { get; set; }
+
         public virtual ICollection<EmployeeDTO> Employees { get; set; }
     }
 }

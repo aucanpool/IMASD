@@ -1,4 +1,5 @@
-﻿using IMASD.DATA.Entities;
+﻿using IMASD.Base.DataTablesDTO;
+using IMASD.DATA.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,10 @@ namespace Services.Interface
 {
     public interface IEmployeeService: IService<Employee>
     {
-        IEnumerable<Employee> GetByFilters(string jobNumber, string fulltName, int? departamentId, int? salaryTabulatorId);
-        IEnumerable<Employee> GetByFilters(string inWhatEverColumn);
+        IEnumerable<Employee> GetByFilters(string jobNumber, string name, int? departamentId, int? salaryTabulatorId);
+        DataTableOutput<Employee> GetByFilters(string jobNumber, string name, int? departamentId, int? salaryTabulatorId, DataTableInput input);
+        IEnumerable<Employee> GetByFilters(string inWhatEverColumn, DataTableInput input);
+        
+        
     }
 }

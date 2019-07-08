@@ -12,6 +12,7 @@ namespace IMASD.DATA.Migrations
     {
         public Configuration()
         {
+            
             AutomaticMigrationsEnabled = false;
         }
         protected override void Seed(MainContext context)
@@ -50,7 +51,7 @@ namespace IMASD.DATA.Migrations
             var departamentos = new List<Departament>();
             for (int i = 0; i < number; i++)
             {
-                departamentos.Add(new Departament() {Name="Departamento "+i, Description="Departamento description"+i });
+                departamentos.Add(new Departament() {Name="Departamento "+i, Description="Departamento description"+i ,Active=true});
             }
             return departamentos;
 
@@ -60,7 +61,7 @@ namespace IMASD.DATA.Migrations
             var jobs = new List<Job>();
             for (int i = 0; i < number; i++)
             {
-                jobs.Add(new Job() { Name = "Departamento " + i, Key = "EED00" + i });
+                jobs.Add(new Job() { Name = "Trabajo " + i, Key = "EED00" + i , Active=true});
             }
             return jobs;
         }
@@ -73,7 +74,8 @@ namespace IMASD.DATA.Migrations
                 TabulatorLevel = Base.ENUMS.TabulatorLevel.A,
                 Hourlywages = 150,
                 AnnualBonusDays = 15,
-                AnnualVacationDays=6
+                AnnualVacationDays=6,
+                Active = true
             }
             );
             salaryTabulators.Add(new SalaryTabulator()
@@ -83,7 +85,8 @@ namespace IMASD.DATA.Migrations
                 TabulatorLevel = Base.ENUMS.TabulatorLevel.B,
                 Hourlywages = 250,
                 AnnualBonusDays = 18,
-                AnnualVacationDays = 8
+                AnnualVacationDays = 8,
+                Active = true
             });
             salaryTabulators.Add(new SalaryTabulator()
             {
@@ -92,7 +95,8 @@ namespace IMASD.DATA.Migrations
                 TabulatorLevel = Base.ENUMS.TabulatorLevel.C,
                 Hourlywages = 450,
                 AnnualBonusDays = 25,
-                AnnualVacationDays = 15
+                AnnualVacationDays = 15,
+                Active=true
             });
 
             return salaryTabulators;

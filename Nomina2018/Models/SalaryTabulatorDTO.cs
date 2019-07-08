@@ -24,11 +24,11 @@ namespace Nomina2018.Models
         [Display(Name = "Nivel")]
         public TabulatorLevel TabulatorLevel { get; set; }
 
-        [Display(Name = "Salarios por hora")]
+        [Display(Name = "Salario por día")]
         [DataType(DataType.Currency, ErrorMessage = "Formato invalido")]
         public float Hourlywages { get; set; }
 
-        [Display(Name = "Primera vacacional anual")]
+        [Display(Name = "Prima vacacional anual")]
         [DataType(DataType.Currency, ErrorMessage = "Formato invalido")]
         public float AnnualHolidayBonus { get; set; }
         [Display(Name = "Dias de aguinaldo anual")]
@@ -36,6 +36,9 @@ namespace Nomina2018.Models
 
         [Display(Name = "Días de vacaciones anuales")]
         public int AnnualVacationDays { get; set; }
+
+        [Display(Name = "Activo")]
+        public bool Active { get; set; }
         //Navigation properties
         public virtual ICollection<EmployeeDTO> Employees { get; set; }
 

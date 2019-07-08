@@ -3,7 +3,17 @@
 @{
     ViewBag.Title = "Empleados";
 }
+@section Styles{
+    <link href="~/Content/DataTables/media/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/Spinner.css" rel="stylesheet" />
 
+<style>
+    .dataTables_processing {
+        top: 110px !important;
+        z-index: 11000 !important;
+    }
+</style>
+}
 <h2>Empleados</h2>
 <tr />
 <div class="jumbotron">
@@ -55,9 +65,9 @@
 
         </div>
     </div>
-    <table class="table  table-hover table-responsive">
-        <thead>
-            <tr>
+    <table id="employeesDT" class="table table-responsive table-striped" data-url="@Url.Action("CustomServerSideSearchAction", "Employee", new { })">
+        <thead >
+            <tr class="bg-primary text-white">
                 <th>
                     @Html.DisplayNameFor(model => model.DepartamentId)
                 </th>
@@ -91,64 +101,16 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody id="loadListEmployee">
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Departament.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SalaryTabulator.Hourlywages) Diario
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.JobNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Telefone)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Gender)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HireDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Active)
-                    </td>
-                    <td>
-                        <button data-toggle="tooltip" data-placement="left" title="Editar" aria-label="Left Align" class="buttonEdit btn btn-default btn-sm btn-size-table" data-url="@Url.Action("Edit", "Employee", new { id = item.Id })">
-                            <i class="fa fa-pencil fa-lg"></i>
-                        </button>
-
-                        <button data-toggle="tooltip" data-placement="left" title="Detalles" aria-label="Left Align" class="buttonDetail btn btn-default btn-sm btn-size-table" data-url="@Url.Action("Details", "Employee", new { id = item.Id })">
-                            <i class="fa fa-info-circle fa-lg"></i>
-                        </button>
-
-                        <button data-toggle="tooltip" data-placement="left" title="Eliminar" aria-label="Left Align" class="buttonDelete btn btn-default btn-sm btn-size-table" data-url="@Url.Action("Delete", "Employee", new { id = item.Id })">
-                            <i class="fa fa-trash-o fa-lg"></i>
-                        </button>
-
-                </tr>
-            }
-        </tbody>
 
     </table>
-
+    <input id="urlEditEmployee" type="hidden" value="@Url.Action("Edit", "Employee")"/>
+    <input id="urlDetailsEmployee" type="hidden" value="@Url.Action("Details", "Employee")" />
+    <input id="urlActiveEmployee" type="hidden" value="@Url.Action("Active", "Employee")" />
 </div>
 <div class="container-fluid">
 
     <!-- The modal -->
-    <div class="modal fade" id="flipFlop" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal fade" id="flipFlop" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div id="load" class="modal-content">
 
@@ -157,156 +119,23 @@
     </div>
 
 </div>
+<div id="deleteModal" style="display:none;">
+    
+        <div class="modal-body">
+            <span class="text-center text-modal"></span>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary activeButton" id="activeButton"><span class="text-active"></span></button>
+            <button type="button" data-dismiss="modal" class="btn">Cancelar</button>
+        </div>
+</div>
 
 @section Scripts{
-    <script>
-        $(function () {
-            postSubmitEdit();
-            $("#searchForm").submit(function (event) {
-                debugger
-                event.preventDefault();  // disable link event.
 
-                var form = $(this);
-                var url = form.attr('action');
+<script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
 
-                var data = form.serialize();
+<script src="~/Scripts/DatatablesConfig/customDataTable.js" type="text/javascript"></script>
 
-                console.log('edit form', url, data);
-
-
-                console.log('get list employees', url);
-                $.ajax({
-                    type: 'post',
-                    url: url,
-                    data: data,
-                    async:true,
-                    success: function (response) {
-                        debugger
-                        $("#loadListEmployee").html(response);
-                        postSubmitEdit();
-                    },
-                    error: function (data) {
-                        debugger
-                        alert(data.responseText);
-
-                    }
-                });
-            });
-            $("button.buttonEdit,button.buttonNew,button.buttonDelete,button.buttonDetail").on('click', function (event) {
-                event.preventDefault();  // disable link event.
-                
-                var button = $(this);
-                var url = button.data('url');
-
-                $.ajax({
-                    type: 'get',
-                    url: url,
-                    contentType: "text/html",
-                    success: function (response) {
-                        $("#load").html(response);
-                        $('#flipFlop').modal('show');// Open edit
-                        //postSubmitEdit();
-                    },
-                    error: function (data) {
-                        alert(data.responseText);
-
-                    }
-                });
-            });
-            // Ends Edit
-
-        })
-
-        /// edit
-
-        function postSubmitEdit() {
-            //Edit documentType
-            $('#editForm, #createForm')
-            .submit(
-                    function (event) {
-                        debugger
-                        event.preventDefault();
-
-
-                        var form = $(this);
-                        var url = form.attr('action');
-
-                        var data = form.serialize();
-
-                        console.log('form', url, data);
-
-                        $
-                                .ajax({
-                                    type: 'POST',
-                                    url: url,
-                                    data: data,
-                                    async: true,
-                                    success: function (response) {
-                                        $('#flipFlop').modal('hide');
-                                        if (form.prop("id") == "editForm") {
-                                            if (confirm("Empleado editado con éxito")) location.reload(true);
-                                        } else {
-                                            if (confirm("Empleado creado con éxito")) location.reload(true);
-                                        }
-                                        
-                                    },
-                                    error: function (response) {
-
-                                        if (response.status == 400) {
-                                            var errors = JSON.parse(response.responseText);
-                                            for (var i = 0; i < errors.length; i++) {
-                                                $('span[data-valmsg-for="' + errors[i].key + '"]').text(errors[i].errors[0]);
-                                            }
-
-                                        }
-                                    }
-                                });
-                    });
-            // ends edit
-
-        }
-        function postShowModalCreate() {
-            //Edit Employee
-            $('#createForm')
-            .submit(
-                    function (event) {
-
-                        event.preventDefault();
-
-
-                        var form = $(this);
-                        var url = form.attr('action');
-
-                        var data = form.serialize();
-
-                        console.log('form', url, data);
-
-                        $
-                                .ajax({
-                                    type: 'POST',
-                                    url: url,
-                                    data: data,
-                                    success: function (response) {
-                                        $('#flipFlop').modal('hide');
-                                        if (confirm("Empleado creado con éxito")) location.reload(true);
-                                    },
-                                    error: function (response) {
-
-                                        if (response.status == 400) {
-                                            var errors = JSON.parse(response.responseText);
-                                            for (var i = 0; i < errors.length; i++) {
-                                                $('span[data-valmsg-for="' + errors[i].key + '"]').text(errors[i].errors[0]);
-                                            }
-
-                                        }
-                                    }
-                                });
-                    });
-            // ends edit
-
-        }
-
-
-
-    </script>
+    <script src="~/Scripts/Employee/index.js" type="text/javascript"></script>
+    
 }

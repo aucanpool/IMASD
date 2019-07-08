@@ -9,7 +9,7 @@ namespace IMASD.DATA.Entities
 {
     public class Employee
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string JobNumber { get; set; }
         public string FirstName { get; set; }
         public String LastName { get; set; }

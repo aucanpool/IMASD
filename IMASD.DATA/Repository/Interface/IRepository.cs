@@ -15,6 +15,8 @@ namespace IMASD.DATA.Repository.Interface
         IEnumerable<T> GetMany(Expression<Func<T, bool>> where);
         void Insert(T entity);
         void Update(T entity);
-        
+        int Count(Expression<Func<T, bool>> where);
+
+
     }
 }
