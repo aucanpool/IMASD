@@ -41,12 +41,14 @@ namespace Nomina2018
             builder.RegisterType<SalaryTabulatorRepository>().As<ISalaryTabulatorRepository>();
             builder.RegisterType<DepartamentRepository>().As<IDepartamentRepository>();
             builder.RegisterType<EmployeeRepository>().As<IEmployeeRepository>();
+            builder.RegisterType<PaymentRepository>().As<IPaymentRepository>();
             builder.RegisterType<MainContext>().InstancePerRequest();
 
             builder.RegisterType<EmployeeService>().As<IEmployeeService>();
             builder.RegisterType<JobService>().As<IJobService>();
             builder.RegisterType<SalaryTabulatorService>().As<ISalaryTabulatorService>();
             builder.RegisterType<DepartamentService>().As<IDepartamentService>();
+            builder.RegisterType<PaymentService>().As<IPaymentService>();
 
 
             // MVC - Set the dependency resolver to be Autofac.

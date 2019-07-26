@@ -10,6 +10,7 @@ using Services.Interface;
 using Autofac.Core;
 using IMASD.Base.Utilities;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace IMASD.Test
 {
@@ -104,6 +105,177 @@ namespace IMASD.Test
         }
 
 
+        [TestMethod]
+        public void TestInsertPayments() {
+            MainContext context = new MainContext();
+            PaymentRepository repository = new PaymentRepository(context);
+            var payments = GetPayments();
+            foreach (var payment in payments)
+            {
+                repository.Insert(payment);
+            }
         }
+
+
+        private List<Payment> GetPayments()
+        {
+            DateTime d = new DateTime(2019, 06, 01);
+            var payments = new List<Payment>();
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays(14),
+                ProcessedDate = d.AddDays(15),
+                
+                EmployeeId = 1
+            });
+            d = d.AddDays(15);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate =d,
+                EndDate = d.AddDays(14),
+                ProcessedDate = d.AddDays(15),
+                EmployeeId = 1
+            });
+            d = d.AddDays(15);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays(14),
+                ProcessedDate = d.AddDays(15),
+                EmployeeId = 1
+            });
+            d = d.AddDays(15);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays(15),
+                ProcessedDate = d.AddDays(16),
+                EmployeeId = 1
+            });
+            /// end employee 1
+            /// start employee 2
+            
+            d = new DateTime(2019, 06, 01);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays( 14),
+                ProcessedDate = d.AddDays(15),
+                EmployeeId = 2
+            });
+            d = d.AddDays(15);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays(14),
+                ProcessedDate = d.AddDays(15),
+                EmployeeId = 2
+            });
+            d.AddDays(15);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate =d,
+                EndDate = d.AddDays(14),
+                ProcessedDate = d.AddDays(15),
+                EmployeeId = 2
+            });
+            d.AddDays(15);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays(15),
+                ProcessedDate = d.AddDays(1),
+                EmployeeId = 2
+            });
+            //end employee 2
+            /// start employee 3
+            d = new DateTime(2019,06,01);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays(14),
+                ProcessedDate = d.AddDays(15),
+                EmployeeId = 3
+            });
+            d = d.AddDays(15);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays(14),
+                ProcessedDate = d.AddDays(15),
+                EmployeeId = 3
+            });
+            d = d.AddDays(15);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays(14),
+                ProcessedDate = d.AddDays(15),
+                EmployeeId = 3
+            });
+            d = d.AddDays(15);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays(15),
+                ProcessedDate = d.AddDays(16),
+                EmployeeId = 3
+            });
+            //end employee 3
+
+            /// start employee 4
+            d = new DateTime(2019,06,01);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays(14),
+                ProcessedDate = d.AddDays(15),
+                EmployeeId = 4
+            });
+            d = d.AddDays(15);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays(14),
+                ProcessedDate = d.AddDays(15),
+                EmployeeId = 4
+            });
+            d = d.AddDays(15);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays(14),
+                ProcessedDate = d.AddDays(15),
+                EmployeeId = 4
+            });
+            d = d.AddDays(15);
+            payments.Add(new Payment
+            {
+                FrequencyofPayments = Base.ENUMS.FrequencyofPayments.Biweekly,
+                StarDate = d,
+                EndDate = d.AddDays(15),
+                ProcessedDate = d.AddDays(1),
+                EmployeeId = 4
+            });
+            /// end employee 4
+            return payments;
+        }
+    }
 
     }

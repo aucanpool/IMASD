@@ -12,7 +12,7 @@
 // Funcion para preparar el VMDataTable
 var preparetedVMDataTable = function (dataTablesInput) {
     var form = $("#searchForm");
-    debugger
+    
     var data = form.serializeArray();
     var filters = {};
     $.each(data, function (index, item) {
@@ -150,6 +150,7 @@ function eventsForButtonCrud() {
                 $("#load").html(response);
                 $('#flipFlop').modal('show');// Open edit
                 postSubmitEdit();
+                inputsValidInput();
             },
             error: function (data) {
                 alert("Ocurrio un problema al intentar realizar su transacción");
@@ -173,6 +174,7 @@ function eventsForButtonCreate() {
                 $("#load").html(response);
                 $('#flipFlop').modal('show');// Open edit
                 postSubmitEdit();
+                inputsValidInput();
             },
             error: function (data) {
                 alert("Ocurrio un problema al intentar realizar su transacción");
@@ -205,7 +207,8 @@ function postSubmitEdit() {
                     success: function (response) {
                         $('#flipFlop').modal('hide');
                         window.dataTableEmployee.draw();
-                        if (form.id == "createForm") {
+                        
+                        if (form[0].id == "createForm") {
                             confirm("Empleado creado con éxito");
                         } else {
                             confirm("Empleado editado con éxito");
@@ -256,4 +259,22 @@ var deletSumitForm = function () {
         });
     });
     
+};
+var inputsValidInput = function () {
+
+    $("#JobNumber").on("input", function (evt) {
+        var self = $(this);
+        self.val(self.val().replace(/[^0-9]/g, ''));
+        if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) {
+            evt.preventDefault();
+        }
+    });
+    $('.date').datepicker({
+        format: 'dd/mm/yyyy',
+        calendarWeeks: true,
+        todayHighlight:true,
+        language:'es'
+    }).on('changeDate', function (e) {
+        $(this).datepicker('hide');
+    });
 };

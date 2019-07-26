@@ -96,7 +96,7 @@ namespace Services
             }
             output.data = result.ToList();
             output.recordsFiltered = repository.Count(query);
-            output.recordsTotal = repository.Count(x=>x.Active==true);
+            output.recordsTotal = repository.Count(x=>1==1);
             return output;
         }
     }

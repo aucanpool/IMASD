@@ -31,6 +31,8 @@ namespace Nomina2018.Controllers
         // GET: Employee
         public ActionResult Index()
         {
+            sb.Clear();
+            sb.Append("Retrieve employees");
             SeriLogHelper.WriteInformation(null,sb.ToString());
             var employees = new List<EmployeeDTO>();
             ViewBag.DepartamentId = new SelectList(AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<DepartamentDTO>>(_departamentService.GetMany(x=>x.Active==true)), "Id", "Name");
@@ -68,7 +70,7 @@ namespace Nomina2018.Controllers
             {
 
                 sb.Clear();
-                sb.Append("BadRequest: It needs the Id for request de Employee details");
+                sb.Append("BadRequest: It needs the Id for request the Employee ");
                 SeriLogHelper.WriteError(null, sb.ToString());
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -158,7 +160,7 @@ namespace Nomina2018.Controllers
             
         }
 
-        // GET: Employee/Delete/5
+        // GET: Employee/Active/true/5
         [HttpDelete]
         [Route("Employee/Active/{active}/{id}")]
         public ActionResult Delete(bool active, int? id)

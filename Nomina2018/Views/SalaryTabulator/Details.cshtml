@@ -2,13 +2,17 @@
 
 @{
     ViewBag.Title = "Details";
+    Layout = "";
 }
 
-<h2>Details</h2>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="modalLabel">Detalles del </h4>tabulador salarial
+</div>
 
-<div>
-    <h4>SalaryTabulator</h4>
-    <hr />
+<div class="modal-body">
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Job.Key)
@@ -76,7 +80,7 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div class="modal-footer">
+
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+</div>

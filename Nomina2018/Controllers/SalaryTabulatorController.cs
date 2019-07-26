@@ -12,6 +12,9 @@ using Services.Interface;
 using Nomina2018.Mapping;
 using Nomina2018.Models;
 using Nomina2018.Models.JSON;
+using System.Text;
+using IMASD.Base.Utilities;
+using IMASD.Base.DataTablesDTO;
 
 namespace Nomina2018.Controllers
 {
@@ -19,17 +22,41 @@ namespace Nomina2018.Controllers
     {
         private readonly ISalaryTabulatorService salaryTabuladorService;
         private readonly IJobService jobService;
+        private StringBuilder sb;
         public SalaryTabulatorController(ISalaryTabulatorService salaryTabuladorService, IJobService jobService)
         {
             this.jobService = jobService;
             this.salaryTabuladorService = salaryTabuladorService;
+            sb = new StringBuilder();
         }
         // GET: SalaryTabulator
         public ActionResult Index()
         {
-            var salaryTabulators = salaryTabuladorService.GetMany(x=>x.Active==true);
-            var salaryTabulatorsDTO = AutoMapperConfiguration.Instance.Mapper.Map<IEnumerable<SalaryTabulatorDTO>>(salaryTabulators);
+            sb.Clear();
+            sb.Append("Retrieve Salary tabulators");
+            SeriLogHelper.WriteInformation(null,sb.ToString());
+            var salaryTabulatorsDTO = new List<SalaryTabulatorDTO>();
             return View(salaryTabulatorsDTO);
+        }
+        [HttpPost]
+        public JsonResult getAll(DataTableInput input)
+        {
+            DataTableOutput<SalaryTabulator> salaryTabulators = new DataTableOutput<SalaryTabulator>();
+           DataTableOutput<SalaryTabulatorDTO> salaryTabulatorsDTO = new DataTableOutput<SalaryTabulatorDTO>();
+            try
+            {
+                salaryTabulators = salaryTabuladorService.GetSalarysTabulators(input);
+                salaryTabulatorsDTO = AutoMapperConfiguration.Instance.Mapper.Map<DataTableOutput<SalaryTabulatorDTO>>(salaryTabulators);
+
+            }
+            catch (Exception e)
+            {
+                sb.Clear();
+                sb.Append("An error has ocurred when it try to retrieve Salary Tabulators");
+                SeriLogHelper.WriteError(e, sb.ToString());
+                return new JsonHttpStatusResult(e.Message, HttpStatusCode.InternalServerError);
+            }
+            return Json(salaryTabulatorsDTO, JsonRequestBehavior.DenyGet);
         }
 
         // GET: SalaryTabulator/Details/5
@@ -37,18 +64,25 @@ namespace Nomina2018.Controllers
         {
             if (id == null)
             {
+                sb.Clear();
+                sb.Append("BadRequest: It needs the Id for request the SalaryTabulator details");
+                SeriLogHelper.WriteError(null, sb.ToString());
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var salaryTabulator = salaryTabuladorService.Get(x => x.Id == id && x.Active==true);
+            var salaryTabulator = salaryTabuladorService.Get(x => x.Id == id );
             var salaryTabulatorDTO = AutoMapperConfiguration.Instance.Mapper.Map<SalaryTabulatorDTO>(salaryTabulator);
-            if (salaryTabulator == null)
+            if (salaryTabulatorDTO == null)
             {
+                sb.Clear();
+                sb.AppendFormat("Not found the salary tabulator with id {0}", id);
+                SeriLogHelper.WriteWarning(null, sb.ToString());
                 return HttpNotFound();
             }
             return View(salaryTabulatorDTO);
         }
 
         // GET: SalaryTabulator/Create
+        [ValidateRequestAjax]
         public ActionResult Create()
         {
             var jobs = jobService.GetMany(x=>x.Active==true);
@@ -62,7 +96,9 @@ namespace Nomina2018.Controllers
         {
             if ((int) salaryTabuladorDTO.TabulatorLevel==0)
             {
-                Console.Write("No select Tabulator level");
+                sb.Clear();
+                sb.Append("Is required a tabulator level to create a salary tabulator");
+                SeriLogHelper.WriteWarning(null, sb.ToString());
                 var data = new ErrorByKey[1] { new ErrorByKey { key = "TabulatorLevel", errors = new string[1] { "Requerido" } } };
                 return new JsonHttpStatusResult(data, HttpStatusCode.BadRequest);
             }
@@ -76,11 +112,17 @@ namespace Nomina2018.Controllers
         {
             if (id == null)
             {
+                sb.Clear();
+                sb.Append("BadRequest: It needs the Id for edit a Salary Tabulator");
+                SeriLogHelper.WriteError(null, sb.ToString());
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SalaryTabulator salaryTabulator = salaryTabuladorService.Get(x=>x.Id==id && x.Active==true);
+            SalaryTabulator salaryTabulator = salaryTabuladorService.Get(x=>x.Id==id );
             if (salaryTabulator == null)
             {
+                sb.Clear();
+                sb.AppendFormat("Salary tabulator  do not found with the id {0}", id);
+                SeriLogHelper.WriteWarning(null, sb.ToString());
                 return HttpNotFound();
             }
             var salaryTabulatorDTO = AutoMapperConfiguration.Instance.Mapper.Map<SalaryTabulatorDTO>(salaryTabulator);
@@ -97,7 +139,9 @@ namespace Nomina2018.Controllers
         {
             if ((int)salaryTabulatorDTO.TabulatorLevel==0)
             {
-                Console.Write("No select tabulator level");
+                sb.Clear();
+                sb.Append("It needs a tabulator level to edit a salary tabulator");
+                SeriLogHelper.WriteWarning(null, sb.ToString());
                 var data = new ErrorByKey[1] { new ErrorByKey { key = "TabulatorLevel", errors = new string[1] { "Requerido" } } };
                 return new JsonHttpStatusResult(data, HttpStatusCode.BadRequest);
             }
@@ -105,21 +149,41 @@ namespace Nomina2018.Controllers
             salaryTabuladorService.Update(salaryTabulator);
             return Json(salaryTabulatorDTO,JsonRequestBehavior.DenyGet);
         }
-        
-        // GET: SalaryTabulator/Delete/5
-        public ActionResult Delete(int? id)
+
+        // GET: SalaryTabulator/Active/true/5
+        [HttpDelete]
+        [Route("SalaryTabulator/Active/{active}/{id}")]
+        public ActionResult Delete(bool active,int? id)
         {
             if (id == null)
             {
+                sb.Clear();
+                sb.Append("It needes a Id to delete a Salary tabulator");
+                SeriLogHelper.WriteError(null, sb.ToString());
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SalaryTabulator salaryTabulator = salaryTabuladorService.Get(x=>x.Active==true && x.Id==id);
-            if (salaryTabulator == null)
+            try
             {
-                return HttpNotFound();
+                SalaryTabulator salaryTabulator = salaryTabuladorService.Get(x => x.Id == id && x.Active == !active);
+                if (salaryTabulator == null)
+                {
+                    return HttpNotFound();
+                }
+                salaryTabulator.Active = active;
+                salaryTabuladorService.Update(salaryTabulator);
+                SalaryTabulatorDTO salaryTabulatorDTO = AutoMapperConfiguration.Instance.Mapper.Map<SalaryTabulatorDTO>(salaryTabulator);
+                return Json(salaryTabulatorDTO, JsonRequestBehavior.DenyGet);
+
             }
-            SalaryTabulatorDTO salaryTabulatorDTO = AutoMapperConfiguration.Instance.Mapper.Map<SalaryTabulatorDTO>(salaryTabulator);
-            return View(salaryTabulatorDTO);
+            catch (Exception e)
+            {
+                sb.Clear();
+                sb.Append(e.ToString());
+                return new JsonHttpStatusResult(sb.ToString(), HttpStatusCode.InternalServerError);
+            }
+            
+            
+            
         }
 
         // POST: SalaryTabulator/Delete/5

@@ -1,0 +1,101 @@
+﻿
+@model IEnumerable<PaymentDTO>
+
+@{
+    ViewBag.Title = "Pagos";
+}
+@section Styles{
+    <link href="~/Content/DataTables/media/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <link href="~/Content/Spinner.css" rel="stylesheet" />
+
+    <style>
+        .dataTables_processing {
+            top: 110px !important;
+            z-index: 11000 !important;
+        }
+    </style>
+}
+<h2>Pagos</h2>
+<tr />
+<div class="jumbotron">
+    @using (Html.BeginForm("Search", "payment", null, FormMethod.Post, new { Id = "searchForm", @class = "form-horizontal" }))
+    {
+
+        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <label class="control-label">Departamento:</label>
+            @Html.DropDownList("DepartamentId", null, "-- Seleccione un departamento --", htmlAttributes: new { @class = "form-control" })
+        </div>
+        
+
+            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <label class="control-label">Nombre de empleado:</label>
+                <div>
+                    <input name="Employee" id="Employee" type="text" class="form-control">
+                </div>
+            </div>
+
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-9 col-sm-9 col-xs-12 ">
+                            <input id="btnConsultar" type="submit" value="Consultar" class="btn btn-primary" data-url="@Url.Action("Create", "Employee", new { })" />
+                        </div>
+                    </div>
+    }
+
+</div>
+
+<div class="panel panel-default" style="padding-bottom:60px">
+
+    <div class="row">
+        <div class="row">
+            <div class="col-md-2 col-md-offset-9 col-sm-2 col-sm-offset-9 col-xs-4 col-xs-offset-7">
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table id="paymentsDT" class="table  table-striped" data-url="@Url.Action("CustomServerSideSearchAction", "Config", new { })">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>
+                        Nombres del @Html.DisplayNameFor(model => model.EmployeeId)
+                    </th>
+                    <th>
+                       Apellidos del @Html.DisplayNameFor(model => model.EmployeeId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FrequencyofPayments)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StarDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EndDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProcessedDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.VoidDate)
+                    </th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+
+</div>
+
+
+@section Scripts{
+
+    <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/DatatablesConfig/customDataTable.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/Config/payment.js" type="text/javascript"></script>
+
+}

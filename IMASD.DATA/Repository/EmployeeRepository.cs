@@ -104,10 +104,12 @@ namespace IMASD.DATA.Repository
                 predicate = predicate.And(x => x.Id == Id);
             if (!string.IsNullOrEmpty(jobNumber))
                 predicate = predicate.And(x => x.JobNumber.Contains(jobNumber));
-            if (!string.IsNullOrEmpty(firstName))
-                predicate = predicate.And(x => x.FirstName.Contains(firstName));
-            if (!string.IsNullOrEmpty(lastName))
-                predicate = predicate.And(x => x.LastName.Contains(lastName));
+            if (!String.IsNullOrWhiteSpace(firstName))
+            {
+                var searchTerms = firstName.Split(' ').ToList().ConvertAll(x => x.ToLower());
+                predicate = predicate.And(x=>searchTerms.Any(srch => x.FirstName.Contains(srch)));
+                predicate = predicate.Or(x => searchTerms.Any(srch => x.LastName.Contains(srch)));
+            }
             if (!string.IsNullOrEmpty(address))
                 predicate = predicate.And(x => x.Address.Contains(address));
             if (!string.IsNullOrEmpty(telefone))

@@ -36,4 +36,20 @@ namespace Nomina2018
             }
         }
     }
+    public class ValidateRequestAjaxAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            var isAjax = filterContext.HttpContext.Request.IsAjaxRequest();
+            if (!isAjax)
+            {
+                filterContext.Result = new JsonResult()
+                {
+                    Data = "not allowed"
+                };
+                filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+            }
+            
+        }
+    }
 }

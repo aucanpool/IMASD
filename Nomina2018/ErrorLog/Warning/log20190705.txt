@@ -1,2 +1,0 @@
-2019-07-05 15:12:02.125 -05:00 [ERR] Employe do not found with the id 1
-2019-07-05 15:16:11.544 -05:00 [ERR] Employe do not found with the id 2

@@ -1,5 +1,4 @@
-﻿using IMASD.Base.DataTablesDTO;
-using IMASD.DATA.Repository.Interface;
+﻿using IMASD.DATA.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

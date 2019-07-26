@@ -21,6 +21,7 @@ namespace IMASD.DATA
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Job> Jobs { get; set; }
         public virtual DbSet<SalaryTabulator> SalaryTabulators { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -28,6 +29,7 @@ namespace IMASD.DATA
             modelBuilder.Configurations.Add(new EmployeeMap());
             modelBuilder.Configurations.Add(new JobMap());
             modelBuilder.Configurations.Add(new SalaryTabulatorMap());
+            modelBuilder.Configurations.Add(new PaymentMap());
         }
         
     }

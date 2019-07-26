@@ -49,6 +49,10 @@ namespace Nomina2018.Mapping
 
                 cfg.CreateMap<SalaryTabulatorDTO, SalaryTabulator>();
 
+                cfg.CreateMap<Payment, PaymentDTO>();
+
+                cfg.CreateMap<PaymentDTO, Payment>();
+
             });
             mapper = mc.CreateMapper();
         }

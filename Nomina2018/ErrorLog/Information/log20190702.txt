@@ -1,6 +1,0 @@
-2019-07-02 16:57:13.267 -05:00 [FTL] Retrieve employees in EmployeeController Index
-2019-07-02 16:57:42.636 -05:00 [FTL] Search employees in EmployeeController Index
-2019-07-02 16:57:42.696 -05:00 [FTL] Filtering employees with the next datas: departamentId:2, SalaryTabulatorId=, Employe.Name=, Employe.Key=
-2019-07-02 17:20:53.802 -05:00 [INF] Search employees in EmployeeController Index
-2019-07-02 17:20:54.552 -05:00 [INF] Filtering employees with the next datas: departamentId:2, SalaryTabulatorId=, Employe.Name=, Employe.Key=
-2019-07-02 18:44:24.121 -05:00 [INF] 

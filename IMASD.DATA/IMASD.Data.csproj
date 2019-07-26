@@ -96,22 +96,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\DepartamentDTO.cs" />
-    <Compile Include="DTO\EmployeeDTO.cs" />
-    <Compile Include="DTO\JobDTO.cs" />
-    <Compile Include="DTO\SalaryTabulatorDTO.cs" />
     <Compile Include="Entities\Departament.cs" />
     <Compile Include="Entities\Employee.cs" />
     <Compile Include="Entities\Job.cs" />
+    <Compile Include="Entities\Payment.cs" />
     <Compile Include="Entities\SalaryTabulator.cs" />
     <Compile Include="MainContext.cs" />
     <Compile Include="Mapping\DepartamentMap.cs" />
     <Compile Include="Mapping\EmployeeMap.cs" />
     <Compile Include="Mapping\JobMap.cs" />
+    <Compile Include="Mapping\PaymentMap.cs" />
     <Compile Include="Mapping\SalaryTabulatorMap.cs" />
-    <Compile Include="Migrations\201906262049049_initialMigration.cs" />
-    <Compile Include="Migrations\201906262049049_initialMigration.Designer.cs">
-      <DependentUpon>201906262049049_initialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201907250134078_InitialMigration.cs" />
+    <Compile Include="Migrations\201907250134078_InitialMigration.Designer.cs">
+      <DependentUpon>201907250134078_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -120,9 +118,11 @@
     <Compile Include="Repository\Interface\IDepartamentRepository.cs" />
     <Compile Include="Repository\Interface\IEmployeeRepository.cs" />
     <Compile Include="Repository\Interface\IJobRepository.cs" />
+    <Compile Include="Repository\Interface\IPaymentRepository.cs" />
     <Compile Include="Repository\Interface\IRepository.cs" />
     <Compile Include="Repository\Interface\ISalaryTabulatorRepository.cs" />
     <Compile Include="Repository\JobRepository.cs" />
+    <Compile Include="Repository\PaymentRepository.cs" />
     <Compile Include="Repository\RepositoryBase.cs" />
     <Compile Include="Repository\SalaryTabulatorRepository.cs" />
   </ItemGroup>
@@ -137,8 +137,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201906262049049_initialMigration.resx">
-      <DependentUpon>201906262049049_initialMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907250134078_InitialMigration.resx">
+      <DependentUpon>201907250134078_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

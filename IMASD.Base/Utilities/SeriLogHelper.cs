@@ -27,7 +27,7 @@ namespace IMASD.Base.Utilities
             path=path.Replace("Release", "");
             Errorlog = new LoggerConfiguration()
                 .MinimumLevel.Error()
-               .WriteTo.File(path: path+"/ErrorLog/Warning/log.txt",
+               .WriteTo.File(path: path+"/ErrorLog/Error/log.txt",
                 rollingInterval: RollingInterval.Day,
                 fileSizeLimitBytes: 5242880,
                 rollOnFileSizeLimit: true)

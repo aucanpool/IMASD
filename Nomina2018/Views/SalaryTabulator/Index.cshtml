@@ -3,73 +3,100 @@
 @{
     ViewBag.Title = "Index";
 }
+@section Styles{
+    <link href="~/Content/DataTables/media/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/Spinner.css" rel="stylesheet" />
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Job.Key)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Key)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TabulatorLevel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Hourlywages)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AnnualHolidayBonus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AnnualBonusDays)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AnnualVacationDays)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Active)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Job.Key)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Key)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TabulatorLevel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Hourlywages)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AnnualHolidayBonus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AnnualBonusDays)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AnnualVacationDays)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+    <style>
+        .dataTables_processing {
+            top: 110px !important;
+            z-index: 11000 !important;
+        }
+    </style>
 }
 
-</table>
+<h2>Tabulador salarial</h2>
+<tr/>
+<div class="panel panel-default" style="padding-bottom:60px">
+    <div   class="row">
+        <div class="col-md-2 col-md-offset-9 col-sm-2 col-sm-offset-9 col-xs-4 col-xs-offset-7">
+            <button style="margin:25px" data-toggle="tooltip" data-placement="left" title="Crear" aria-label="Left Align" class="buttonNew btn btn-success btn-sm btn-size-table" data-url="@Url.Action("Create", "SalaryTabulator", new { })">
+                Nuevo tabulador salarial
+            </button>
+        </div> 
+    </div>
+    <div class="table-responsive">
+        <table id="salaryTabulatorsDT" class="table table-striped" data-url="@Url.Action("getAll", "SalaryTabulator", new { })">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>
+                        @Html.DisplayNameFor(model => model.JobId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Key)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TabulatorLevel)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Hourlywages)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AnnualHolidayBonus)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AnnualBonusDays)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AnnualVacationDays)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Active)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+        
+
+        <input id="urlEditSalaryTabulator" type="hidden" value="@Url.Action("Edit", "SalaryTabulator")" />
+        <input id="urlDetailsSalaryTabulator" type="hidden" value="@Url.Action("Details", "SalaryTabulator")" />
+        <input id="urlActiveSalaryTabulator" type="hidden" value="@Url.Action("Active", "SalaryTabulator")" />
+
+    </div>
+
+<div class="container-fluid">
+
+    <!-- The modal -->
+    <div class="modal fade" id="flipFlop" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div id="load" class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="deleteModal" style="display:none;">
+
+    <div class="modal-body">
+        <span class="text-center text-modal"></span>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary activeButton" id="activeButton"><span class="text-active"></span></button>
+        <button type="button" data-dismiss="modal" class="btn">Cancelar</button>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/DatatablesConfig/customDataTable.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/SalaryTabulator/index.js" type="text/javascript"></script>
+
+}
+
+

@@ -1,4 +1,5 @@
-﻿using IMASD.DATA.Entities;
+﻿using IMASD.Base.DataTablesDTO;
+using IMASD.DATA.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace Services.Interface
 {
     public interface ISalaryTabulatorService: IService<SalaryTabulator>
     {
+        DataTableOutput<SalaryTabulator> GetSalarysTabulators(DataTableInput input);
     }
 }

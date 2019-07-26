@@ -75,8 +75,10 @@
                     @Html.LabelFor(model => model.HireDate, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
 
+                        <input class="form-control date text-box single-line"  
+                               value="@Model.HireDate.ToString("dd/MM/yyyy")"
+                               data-val="true" data-val-date="The field Fecha de contratación must be a date." data-val-required="Requerido." id="HireDate" name="HireDate" type="text">
 
-                        @Html.EditorFor(model => model.HireDate, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.HireDate, "", new { @class = "text-danger" })
                     </div>
                 </div>

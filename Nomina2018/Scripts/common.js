@@ -11,3 +11,5 @@ function dateToYMD(date) {
     var y = date.getFullYear();
     return '' + (d <= 9 ? '0' + d : d) + '/' + (m <= 9 ? '0' + m : m) + '/' + y;
 }
+
+var TabulatorSalary={1:"A",2:"B", 3:"C"};

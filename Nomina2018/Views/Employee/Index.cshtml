@@ -5,6 +5,9 @@
 }
 @section Styles{
     <link href="~/Content/DataTables/media/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-datepicker3.min.css" rel="stylesheet" />
+
+<link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />
 <link href="~/Content/Spinner.css" rel="stylesheet" />
 
 <style>
@@ -32,6 +35,7 @@
             <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <label class="control-label">Numero de empleado:</label>
                 <div>
+
                     <input name="KeyEmplooye" id="KeyEmplooye" type="text" class="form-control">
                 </div>
             </div>
@@ -56,7 +60,7 @@
 
     <div class="row">
         <div class="row">
-            <div class="col-md-2 col-md-offset-10 col-sm-2 col-sm-offset-10 col-xs-4 col-xs-offset-8">
+            <div class="col-md-2 col-md-offset-9 col-sm-2 col-sm-offset-9 col-xs-4 col-xs-offset-7">
 
                 <button style="margin:25px" data-toggle="tooltip" data-placement="left" title="Crear" aria-label="Left Align" class="buttonNew btn btn-success btn-sm btn-size-table" data-url="@Url.Action("Create", "Employee", new { })">
                     Nuevo empleado
@@ -65,48 +69,52 @@
 
         </div>
     </div>
-    <table id="employeesDT" class="table table-responsive table-striped" data-url="@Url.Action("CustomServerSideSearchAction", "Employee", new { })">
-        <thead >
-            <tr class="bg-primary text-white">
-                <th>
-                    @Html.DisplayNameFor(model => model.DepartamentId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SalaryTabulatorId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.JobNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Address)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Telefone)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Gender)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.HireDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Active)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
 
-    </table>
-    <input id="urlEditEmployee" type="hidden" value="@Url.Action("Edit", "Employee")"/>
-    <input id="urlDetailsEmployee" type="hidden" value="@Url.Action("Details", "Employee")" />
-    <input id="urlActiveEmployee" type="hidden" value="@Url.Action("Active", "Employee")" />
-</div>
+    <div class="table-responsive">
+        <table id="employeesDT" class="table  table-striped" data-url="@Url.Action("CustomServerSideSearchAction", "Employee", new { })">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>
+                        @Html.DisplayNameFor(model => model.DepartamentId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SalaryTabulatorId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.JobNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Telefone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Gender)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HireDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Active)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+        
+        <input id="urlEditEmployee" type="hidden" value="@Url.Action("Edit", "Employee")" />
+        <input id="urlDetailsEmployee" type="hidden" value="@Url.Action("Details", "Employee")" />
+        <input id="urlActiveEmployee" type="hidden" value="@Url.Action("Active", "Employee")" />
+    </div>
 <div class="container-fluid">
 
     <!-- The modal -->
@@ -135,6 +143,8 @@
 <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
 
 <script src="~/Scripts/DatatablesConfig/customDataTable.js" type="text/javascript"></script>
+<script src="~/Scripts/bootstrap-datepicker.min.js" type="text/javascript"></script>
+<script src="~/Scripts/locales/bootstrap-datepicker.es.min.js" type="text/javascript"></script>
 
     <script src="~/Scripts/Employee/index.js" type="text/javascript"></script>
     
